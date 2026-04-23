@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
+from PIL import Image
 from utils import AsthmaXGB
 import os
 
