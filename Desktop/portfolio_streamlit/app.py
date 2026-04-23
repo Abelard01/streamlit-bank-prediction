@@ -5,6 +5,14 @@ import joblib
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
 from utils import AsthmaXGB
+import os
+
+# Trouver le chemin du dossier où se trouve app.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Fonction pour construire les chemins correctement
+def get_path(relative_path):
+    return os.path.join(BASE_DIR, relative_path)
 st.set_page_config(page_title="Portfolio | Abelard Mugisha", page_icon="🧬", layout="wide")
 # --- INJECTION DU FOND ANIMÉ (THÈME CLAIR PREMIUM) ---
 fond_anime_clair = """
@@ -38,7 +46,9 @@ with col_photo:
     # On remplace le st.info par le chargement de la vraie image
     try:
         from PIL import Image
-        image_photo = Image.open('images/maphoto.JPG')
+        # Remplace ta ligne Image.open par celle-ci :
+        image_path = get_path("images/maphoto.JPG") # Respecte bien les majuscules de .JPG
+        image_photo = Image.open(image_path)
         # use_container_width=True permet à la photo de s'adapter parfaitement à la taille de la colonne
         st.image(image_photo, use_container_width=True)
     except FileNotFoundError:
@@ -214,9 +224,8 @@ elif projet_choisi == " IA Prédictive (Asthme)":
             # --- LA VRAIE CONNEXION AUX MODÈLES ---
             try:
                 # 1. Chargement instantané des modèles
-                modele_classif = joblib.load("models/modele_classification.pkl")
-                modele_reg = joblib.load("models/modele_regression.pkl")
-                
+                modele_classif = joblib.load(os.path.join(BASE_DIR, "models", "modele_classification.pkl"))
+                modele_reg = joblib.load(os.path.join(BASE_DIR, "models", "modele_regression.pkl"))
                 # 2. Lancement des prédictions (ça prend 0.1 seconde !)
                 pred_crise = modele_classif.predict(df_patient)[0] 
                 
