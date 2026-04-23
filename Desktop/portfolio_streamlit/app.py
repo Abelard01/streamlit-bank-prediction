@@ -44,16 +44,14 @@ with col_photo:
     # On remplace le st.info par le chargement de la vraie image
     # 3. Chargement de l'image avec diagnostic complet
     try:
-        # La méthode la plus blindée : "cherche le dossier où se trouve ce fichier app.py"
-        DOSSIER_APP = os.path.dirname(os.path.abspath(__file__))
-        path_photo = os.path.join(DOSSIER_APP, "images", "maphoto.JPG") 
-        
+        path_photo = os.path.join(BASE_DIR, "images", "maphoto.JPG") 
         image_photo = Image.open(path_photo)
         
+        # LA LIGNE MAGIQUE POUR AFFICHER L'IMAGE :
+        st.image(image_photo, use_container_width=True) 
+        
     except Exception as e:
-        # Cette fois-ci, on affiche la VRAIE erreur technique !
-        st.error(f"La vraie erreur technique est : {e}")
-        st.error(f"Le chemin testé était : {path_photo}")
+        st.error(f"Erreur Image : {e}")
 with col_texte:
     st.title("Abelard Mugisha")
     st.subheader("Ingénieur Biomédical & Data Scientist Santé")
