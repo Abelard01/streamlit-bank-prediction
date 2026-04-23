@@ -33,7 +33,7 @@ python-dateutil
 referencing
 requests
 rpds-py
-scikit-learn
+scikit-learn==1.6.1
 scipy
 seaborn
 six
