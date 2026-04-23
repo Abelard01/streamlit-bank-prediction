@@ -8,11 +8,8 @@ from utils import AsthmaXGB
 import os
 
 # Trouver le chemin du dossier où se trouve app.py
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CURRENT_DIR = os.getcwd()
 
-# Fonction pour construire les chemins correctement
-def get_path(relative_path):
-    return os.path.join(BASE_DIR, relative_path)
 st.set_page_config(page_title="Portfolio | Abelard Mugisha", page_icon="🧬", layout="wide")
 # --- INJECTION DU FOND ANIMÉ (THÈME CLAIR PREMIUM) ---
 fond_anime_clair = """
@@ -45,14 +42,10 @@ col_photo, col_texte = st.columns([1, 3])
 with col_photo:
     # On remplace le st.info par le chargement de la vraie image
     try:
-        from PIL import Image
-        # Remplace ta ligne Image.open par celle-ci :
-        image_path = get_path("images/maphoto.JPG") # Respecte bien les majuscules de .JPG
-        image_photo = Image.open(image_path)
-        # use_container_width=True permet à la photo de s'adapter parfaitement à la taille de la colonne
-        st.image(image_photo, use_container_width=True)
-    except FileNotFoundError:
-        st.error(" Photo introuvable (Vérifiez le dossier 'images')")
+        path_photo = os.path.join(CURRENT_DIR, "images", "maphoto.JPG") # Vérifie bien le .JPG !
+        image_photo = Image.open(path_photo)
+    except Exception as e:
+        st.error(f"Erreur d'image. Chemin cherché : {path_photo}")
 with col_texte:
     st.title("Abelard Mugisha")
     st.subheader("Ingénieur Biomédical & Data Scientist Santé")
@@ -223,9 +216,12 @@ elif projet_choisi == " IA Prédictive (Asthme)":
             
             # --- LA VRAIE CONNEXION AUX MODÈLES ---
             try:
-                # 1. Chargement instantané des modèles
-                modele_classif = joblib.load(os.path.join(BASE_DIR, "models", "modele_classification.pkl"))
-                modele_reg = joblib.load(os.path.join(BASE_DIR, "models", "modele_regression.pkl"))
+                path_classif = os.path.join(CURRENT_DIR, "models", "modele_classification.pkl")
+                modele_classif = joblib.load(path_classif)
+                
+                path_reg = os.path.join(CURRENT_DIR, "models", "modele_regression.pkl")
+                modele_reg = joblib.load(path_reg)
+                
                 # 2. Lancement des prédictions (ça prend 0.1 seconde !)
                 pred_crise = modele_classif.predict(df_patient)[0] 
                 
