@@ -41,11 +41,18 @@ col_photo, col_texte = st.columns([1, 3])
 
 with col_photo:
     # On remplace le st.info par le chargement de la vraie image
+    # 3. Chargement de l'image avec diagnostic complet
     try:
-        path_photo = os.path.join(BASE_DIR, "images", "maphoto.JPG") # Vérifie bien le .JPG !
+        # La méthode la plus blindée : "cherche le dossier où se trouve ce fichier app.py"
+        DOSSIER_APP = os.path.dirname(os.path.abspath(__file__))
+        path_photo = os.path.join(DOSSIER_APP, "images", "maphoto.JPG") 
+        
         image_photo = Image.open(path_photo)
+        
     except Exception as e:
-        st.error(f"Erreur d'image. Chemin cherché : {path_photo}")
+        # Cette fois-ci, on affiche la VRAIE erreur technique !
+        st.error(f"La vraie erreur technique est : {e}")
+        st.error(f"Le chemin testé était : {path_photo}")
 with col_texte:
     st.title("Abelard Mugisha")
     st.subheader("Ingénieur Biomédical & Data Scientist Santé")
