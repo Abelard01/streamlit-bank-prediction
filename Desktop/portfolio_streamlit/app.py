@@ -8,7 +8,7 @@ from utils import AsthmaXGB
 import os
 
 # Trouver le chemin du dossier où se trouve app.py
-CURRENT_DIR = os.getcwd()
+BASE_DIR = os.path.join(os.getcwd(), "Desktop", "portfolio_streamlit")
 
 st.set_page_config(page_title="Portfolio | Abelard Mugisha", page_icon="🧬", layout="wide")
 # --- INJECTION DU FOND ANIMÉ (THÈME CLAIR PREMIUM) ---
@@ -42,7 +42,7 @@ col_photo, col_texte = st.columns([1, 3])
 with col_photo:
     # On remplace le st.info par le chargement de la vraie image
     try:
-        path_photo = os.path.join(CURRENT_DIR, "images", "maphoto.JPG") # Vérifie bien le .JPG !
+        path_photo = os.path.join(BASE_DIR, "images", "maphoto.JPG") # Vérifie bien le .JPG !
         image_photo = Image.open(path_photo)
     except Exception as e:
         st.error(f"Erreur d'image. Chemin cherché : {path_photo}")
@@ -216,10 +216,10 @@ elif projet_choisi == " IA Prédictive (Asthme)":
             
             # --- LA VRAIE CONNEXION AUX MODÈLES ---
             try:
-                path_classif = os.path.join(CURRENT_DIR, "models", "modele_classification.pkl")
+                path_classif = os.path.join(BASE_DIR, "models", "modele_classification.pkl")
                 modele_classif = joblib.load(path_classif)
                 
-                path_reg = os.path.join(CURRENT_DIR, "models", "modele_regression.pkl")
+                path_reg = os.path.join(BASE_DIR, "models", "modele_regression.pkl")
                 modele_reg = joblib.load(path_reg)
                 
                 # 2. Lancement des prédictions (ça prend 0.1 seconde !)
